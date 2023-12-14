@@ -1,10 +1,10 @@
-import TextField from "@mui/material/TextField";
-import { Box, Button } from "@mui/material";
-import { useState } from "react";
-import { searchValueVar } from "../../utils/variables";
+import TextField from '@mui/material/TextField';
+import { Box, Button } from '@mui/material';
+import { useState } from 'react';
+import { searchValueVar } from '../../utils/variables';
 
 const Search = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   const handleSearch = () => {
     searchValueVar(value);
@@ -13,9 +13,9 @@ const Search = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         m: 4,
       }}
     >
