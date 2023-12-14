@@ -7,12 +7,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Repository } from '../../utils/types';
+import { useFetchData } from '../../hooks/useFetchData';
 
-interface TableProps {
-    repositories: Repository[];
-}
 
-const TableComponent: FC<TableProps> = ({ repositories }) => {
+const TableComponent = () => {
+    const { loading, error, repositories, handleShowMore } = useFetchData();
 
     return (
         <TableContainer component={Paper}>
