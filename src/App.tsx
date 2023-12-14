@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import TableComponent from './Components/Table/Table';
-import { Repository } from './utils/types';
 import Search from './Components/Search/Search';
 import { useFetchData } from './hooks/useFetchData';
 
@@ -17,9 +16,9 @@ const App = () => {
   }
   return (
     <div className="App">
-      <Search />
-      <TableComponent />
-      <button onClick={handleShowMore}>click</button>
+        <Search />
+        <TableComponent />
+        <button onClick={handleShowMore}>click</button>
     </div>
   );
 }

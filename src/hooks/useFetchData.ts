@@ -3,25 +3,40 @@ import { POPULAR_REPOS_QUERY } from "../graphql/queries/queries";
 import { RepoListData, RepoListVariables } from "../graphql/types/ReposQuery";
 import { useEffect, useState } from "react";
 import { Repository } from "../utils/types";
+import { repositories as repositoriesVar } from "../utils/variables";
 
 export const useFetchData = () => {
-  const [repositories, setRepositiries] = useState<Repository[]>([]);
-  const { loading, error, data, fetchMore } = useQuery<RepoListData, RepoListVariables>(
+  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const [searchValue, setSearchValue] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const { loading, error, data, fetchMore, refetch } = useQuery<RepoListData, RepoListVariables>(
     POPULAR_REPOS_QUERY,
     {
       variables: {
         first: 10,
+        query: `language:javascript topic:react`,
       },
     }
   );
+
   useEffect(() => {
     const repos = data && data.search.nodes && data.search.nodes as unknown as Repository[];
-    repos && setRepositiries(repos)
-  }, [data])
+    if (repos) {
+      setRepositories(repos)
+      repositoriesVar(repos)
+    } 
+  }, [data]);
+
+  useEffect(() => {
+    refetch({
+      first: 10,
+      query: `language:javascript topic:react ${searchValue}`,
+    });
+  }, [searchValue, refetch]);
 
   const handleShowMore = () => {
     fetchMore({
-      variables: { after: data?.search.pageInfo.endCursor, first: 10 },
+      variables: { after: data?.search.pageInfo.endCursor, first: 10, query: `language:javascript topic:react ${searchValue}` },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         return {
@@ -33,5 +48,16 @@ export const useFetchData = () => {
       },
     });
   };
-  return { loading, error, repositories, handleShowMore }
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  return { loading, error, repositories, searchValue, currentPage, handleShowMore, setSearchValue, handleNextPage, handlePrevPage };
 };
