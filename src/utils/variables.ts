@@ -9,5 +9,4 @@ export const repositoriesVar = makeVar<RepoListData>({
         }
     }
 });
-export const pageVar = makeVar<number>(1);
 export const searchValueVar = makeVar<string>("");
