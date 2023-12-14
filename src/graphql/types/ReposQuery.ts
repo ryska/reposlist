@@ -11,7 +11,7 @@ export type RepoListData = {
 };
 
 export type RepoListVariables = {};
-export type PageInfo = {
+type PageInfo = {
   startCursor: string;
   endCursor: string;
   hasNextPage: boolean;

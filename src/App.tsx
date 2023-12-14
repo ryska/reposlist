@@ -1,8 +1,6 @@
-import React from 'react';
 import './App.scss';
 import TableComponent from './Components/Table/Table';
 import Search from './Components/Search/Search';
-import { useFetchData } from './hooks/useFetchData';
 import { Typography } from '@mui/material';
 
 const App = () => {

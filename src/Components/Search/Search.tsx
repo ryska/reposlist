@@ -21,7 +21,6 @@ const Search = () => {
     >
       <TextField
         data-testid="searchInput"
-        id="outlined-basic"
         placeholder="user:facebook"
         label="Search"
         variant="outlined"
