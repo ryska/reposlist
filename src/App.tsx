@@ -5,20 +5,19 @@ import Search from './Components/Search/Search';
 import { useFetchData } from './hooks/useFetchData';
 
 const App = () => {
-  const { loading, error, repositories, handleShowMore } = useFetchData();
+  const { loading, error } = useFetchData();
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
   if (error) {
-    return <p>Error: {error.message}</p>;
+    return <p>Something went wrong! Error: {error.message}</p>;
   }
   return (
     <div className="App">
         <Search />
         <TableComponent />
-        <button onClick={handleShowMore}>click</button>
     </div>
   );
 }

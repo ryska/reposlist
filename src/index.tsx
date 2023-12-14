@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 );
 const githubAccessToken = process.env.REACT_APP_GITHUB_ACCESS_TOKEN;
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: 'https://api.github.com/graphql',
   cache: new InMemoryCache(),
   headers: {

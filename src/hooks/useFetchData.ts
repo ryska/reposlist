@@ -1,48 +1,40 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { POPULAR_REPOS_QUERY } from "../graphql/queries/queries";
 import { RepoListData, RepoListVariables } from "../graphql/types/ReposQuery";
-import { useEffect, useState } from "react";
-import { Repository } from "../utils/types";
-import { repositories as repositoriesVar } from "../utils/variables";
+import { useEffect } from "react";
+import { pageVar, repositoriesVar, searchValueVar } from "../utils/variables";
 
 export const useFetchData = () => {
-  const [repositories, setRepositories] = useState<Repository[]>([]);
-  const [searchValue, setSearchValue] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const { loading, error, data, fetchMore, refetch } = useQuery<RepoListData, RepoListVariables>(
+  const searchValue = useReactiveVar(searchValueVar);
+  const currentPage = useReactiveVar(pageVar);
+  const repositories = useReactiveVar(repositoriesVar);
+  const query = `language:javascript topic:react ${searchValue}`;
+
+  const { loading, error, data, fetchMore } = useQuery<RepoListData, RepoListVariables>(
     POPULAR_REPOS_QUERY,
     {
       variables: {
         first: 10,
-        query: `language:javascript topic:react`,
+        query
       },
     }
   );
 
   useEffect(() => {
-    const repos = data && data.search.nodes && data.search.nodes as unknown as Repository[];
-    if (repos) {
-      setRepositories(repos)
-      repositoriesVar(repos)
-    } 
+    data && repositoriesVar(data)
   }, [data]);
 
-  useEffect(() => {
-    refetch({
-      first: 10,
-      query: `language:javascript topic:react ${searchValue}`,
-    });
-  }, [searchValue, refetch]);
-
-  const handleShowMore = () => {
+  const handleShowMore = ({ after, before }: { after?: string; before?: string }) => {
     fetchMore({
-      variables: { after: data?.search.pageInfo.endCursor, first: 10, query: `language:javascript topic:react ${searchValue}` },
+      variables: { after, before, query },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
+        const nextRepos = fetchMoreResult;
+        repositoriesVar(nextRepos);
         return {
           search: {
             ...fetchMoreResult.search,
-            nodes: [...prev.search.nodes, ...fetchMoreResult.search.nodes],
+            nodes: [...fetchMoreResult.search.nodes],
           },
         };
       },
@@ -50,14 +42,16 @@ export const useFetchData = () => {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prev) => prev + 1);
+    // pageVar(currentPage + 1);
+    handleShowMore({ after: repositories.search.pageInfo.endCursor, before: undefined });
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
+      // pageVar(currentPage - 1);
+      handleShowMore({ after:  repositories.search.pageInfo.startCursor, before: repositories.search.pageInfo.startCursor });
     }
   };
 
-  return { loading, error, repositories, searchValue, currentPage, handleShowMore, setSearchValue, handleNextPage, handlePrevPage };
+  return { loading, error, searchValue, handleShowMore, handleNextPage, handlePrevPage };
 };

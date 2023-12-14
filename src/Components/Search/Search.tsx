@@ -1,15 +1,14 @@
 import TextField from "@mui/material/TextField"
-import { useFetchData } from "../../hooks/useFetchData";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import { searchValueVar } from "../../utils/variables";
 
 
 const Search = () => {
-    const { setSearchValue } = useFetchData();
     const [value, setValue] = useState('');
   
     const handleSearch = () => {
-      setSearchValue(value);
+        searchValueVar(value);
     };
   
     return (

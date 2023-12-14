@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const POPULAR_REPOS_QUERY = gql`
-  query PopularRepos($after: String, $before: String, $query: String!) {
-    search(type: REPOSITORY, first: 10, after: $after, before: $before, query: $query) {
+query PopularRepos($first: Int, $after: String, $last: Int, $before: String, $query: String!) {
+    search(type: REPOSITORY, first: $first, after: $after, last: $last, before: $before, query: $query) {
       nodes {
         ... on Repository {
           forkCount
@@ -12,8 +12,10 @@ export const POPULAR_REPOS_QUERY = gql`
         }
       }
       pageInfo {
+        startCursor
         endCursor
         hasNextPage
+        hasPreviousPage
       }
     }
   }

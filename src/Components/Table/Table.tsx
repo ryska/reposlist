@@ -6,14 +6,19 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { repositories } from '../../utils/variables';
+import { pageVar, repositoriesVar } from '../../utils/variables';
 import { useReactiveVar } from '@apollo/client';
 import Button from '@mui/material/Button';
 import { useFetchData } from '../../hooks/useFetchData';
 
 const TableComponent = () => {
-    const repositoryList = useReactiveVar(repositories);
-    const { currentPage, handlePrevPage, handleNextPage } = useFetchData();
+    const repositories = useReactiveVar(repositoriesVar);
+    const { handleNextPage, handlePrevPage } = useFetchData();
+
+    const currentPage = useReactiveVar(pageVar);
+    useEffect(() => {
+        console.log(currentPage);
+    }, [currentPage])
 
     return (
         <div>
@@ -27,7 +32,7 @@ const TableComponent = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {repositoryList.map((row, i: number) => (
+                        {repositories.search.nodes.map((row, i: number) => (
                             <TableRow
                                 key={i}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -45,8 +50,8 @@ const TableComponent = () => {
                 </Table>
             </TableContainer>
             <div>
-                <Button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>
-                <Button onClick={handleNextPage}>Next</Button>
+                <Button disabled={!repositories.search.pageInfo.hasPreviousPage} onClick={() => handlePrevPage()}>Previous</Button>
+                <Button disabled={!repositories.search.pageInfo.hasNextPage} onClick={() => handleNextPage()}>Next</Button>
             </div>
         </div>
     );
