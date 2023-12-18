@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const POPULAR_REPOS_QUERY = gql`
-  query PopularRepos($after: String, $query: String!, $first: Int) {
+  query GetPopularRepos($after: String, $query: String!, $first: Int) {
     search(type: REPOSITORY, query: $query, first: $first, after: $after) {
         repositoryCount
         edges {

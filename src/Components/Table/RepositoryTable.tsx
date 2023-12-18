@@ -8,10 +8,10 @@ import { repositoriesVar } from '../../utils/variables';
 import { useReactiveVar } from '@apollo/client';
 import Button from '@mui/material/Button';
 import { useFetchData } from '../../hooks/useFetchData';
-import './Table.scss';
+import './RepositoryTable.scss';
 import { Box } from '@mui/material';
 
-const TableComponent = () => {
+const RepositoryTable = () => {
   const repositories = useReactiveVar(repositoriesVar);
   const { handleNextPage, handlePrevPage } = useFetchData();
   const { loading, error } = useFetchData();
@@ -26,7 +26,7 @@ const TableComponent = () => {
 
   return (
     <div>
-      <TableContainer sx={{ display: 'flex', justifyContent: 'center' }}>
+      <TableContainer data-testid="repoTableComponent" sx={{ display: 'flex', justifyContent: 'center' }}>
         <Table sx={{ minWidth: 650, maxWidth: 800 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -69,6 +69,7 @@ const TableComponent = () => {
       </TableContainer>
       <Box sx={{ m: 4 }}>
         <Button
+          data-testid="buttonPrev"
           sx={{ mr: 2 }}
           variant="contained"
           disabled={!repositories.search.pageInfo.hasPreviousPage}
@@ -77,6 +78,7 @@ const TableComponent = () => {
           Previous
         </Button>
         <Button
+          data-testid="buttonNext"
           sx={{ mr: 2 }}
           variant="contained"
           disabled={!repositories.search.pageInfo.hasNextPage}
@@ -89,4 +91,4 @@ const TableComponent = () => {
   );
 };
 
-export default TableComponent;
+export default RepositoryTable;

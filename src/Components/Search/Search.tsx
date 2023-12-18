@@ -2,9 +2,11 @@ import TextField from '@mui/material/TextField';
 import { Box, Button } from '@mui/material';
 import { useState } from 'react';
 import { searchValueVar } from '../../utils/variables';
+import { useFetchData } from '../../hooks/useFetchData';
 
 const Search = () => {
   const [value, setValue] = useState('');
+  const { loading } = useFetchData();
 
   const handleSearch = () => {
     searchValueVar(value);
@@ -12,6 +14,7 @@ const Search = () => {
 
   return (
     <Box
+      data-testid="searchComponent"
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -27,7 +30,7 @@ const Search = () => {
         value={value}
         sx={{ width: 1, maxWidth: 300, mr: 2 }}
       />
-      <Button data-testid="searchButton" type="button" onClick={handleSearch}>
+      <Button data-testid="searchButton" type="button" onClick={handleSearch} disabled={loading}>
         Search
       </Button>
     </Box>

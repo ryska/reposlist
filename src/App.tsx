@@ -1,5 +1,5 @@
 import './App.scss';
-import TableComponent from './Components/Table/Table';
+import RepositoryTable from './Components/Table/RepositoryTable';
 import Search from './Components/Search/Search';
 import { Typography } from '@mui/material';
 
@@ -10,7 +10,7 @@ const App = () => {
         Hi! Here you can search for most popular repositories 👀
       </Typography>
       <Search />
-      <TableComponent />
+      <RepositoryTable />
     </div>
   );
 };
