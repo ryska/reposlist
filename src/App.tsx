@@ -1,5 +1,5 @@
 import './App.scss';
-import RepositoryTable from './Components/Table/RepositoryTable';
+import RepositoryTable from './Components/RepositoryTable/RepositoryTable';
 import Search from './Components/Search/Search';
 import { Typography } from '@mui/material';
 

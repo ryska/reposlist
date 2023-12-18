@@ -1,3 +1,4 @@
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,7 +12,7 @@ import { useFetchData } from '../../hooks/useFetchData';
 import './RepositoryTable.scss';
 import { Box } from '@mui/material';
 
-const RepositoryTable = () => {
+const RepositoryTable = React.memo(() => {
   const repositories = useReactiveVar(repositoriesVar);
   const { handleLoadMore } = useFetchData();
   const { loading, error } = useFetchData();
@@ -33,11 +34,11 @@ const RepositoryTable = () => {
         <Table sx={{ minWidth: 650, maxWidth: 800 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 600 }}>Name</TableCell>
-              <TableCell sx={{ fontWeight: 600 }} align="right">
+              <TableCell sx={{ fontWeight: 700 }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: 700 }} align="right">
                 🌟 Stars
               </TableCell>
-              <TableCell sx={{ fontWeight: 600 }} align="right">
+              <TableCell sx={{ fontWeight: 700 }} align="right">
                 🍴 Forks
               </TableCell>
             </TableRow>
@@ -76,6 +77,6 @@ const RepositoryTable = () => {
       </Box>
     </div>
   );
-};
+});
 
 export default RepositoryTable;

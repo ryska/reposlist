@@ -1,9 +1,9 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import Search from '../Components/Search/Search';
-import * as useFetchDataModule from '../hooks/useFetchData';
+import Search from '../Search/Search';
+import * as useFetchDataModule from '../../hooks/useFetchData';
 jest.mock('@apollo/client');
 
-jest.mock('../hooks/useFetchData', () => ({
+jest.mock('../../hooks/useFetchData', () => ({
   useFetchData: jest.fn(),
 }));
 describe('Search component', () => {
@@ -12,6 +12,7 @@ describe('Search component', () => {
       loading: false,
     }));
   });
+
   test('renders Search component', () => {
     render(<Search />);
     const searchElement = screen.getByTestId('searchComponent');

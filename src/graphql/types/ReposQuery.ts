@@ -1,7 +1,5 @@
 export type RepoListData = {
-  repositoryCount: number;
   search: {
-    repositoryCount: number;
     edges: {
       node: Repository;
     }[];

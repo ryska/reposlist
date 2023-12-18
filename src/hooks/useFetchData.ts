@@ -1,5 +1,5 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { POPULAR_REPOS_QUERY } from '../graphql/queries/queries';
+import { POPULAR_REPOS_QUERY } from '../graphql/queries/repositories';
 import { RepoListData, RepoListVariables } from '../graphql/types/ReposQuery';
 import { useEffect } from 'react';
 import { repositoriesVar, searchValueVar } from '../utils/variables';
@@ -23,7 +23,7 @@ export const useFetchData = () => {
     data && repositoriesVar(data);
   }, [data]);
 
-  const handleShowMore = () => {
+  const handleLoadMore = () => {
     const lastCursor = repositories.search.pageInfo.endCursor;
     fetchMore({
       variables: {
@@ -46,9 +46,6 @@ export const useFetchData = () => {
         };
       },
     });
-  };
-  const handleLoadMore = () => {
-    handleShowMore();
   };
 
   return { loading, error, handleLoadMore };

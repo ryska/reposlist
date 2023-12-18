@@ -1,15 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import * as useFetchDataModule from '../hooks/useFetchData';
-import RepositoryTable from '../Components/Table/RepositoryTable';
+import * as useFetchDataModule from '../../hooks/useFetchData';
+import RepositoryTable from '../RepositoryTable/RepositoryTable';
 
-jest.mock('../hooks/useFetchData', () => ({
+jest.mock('../../hooks/useFetchData', () => ({
   useFetchData: jest.fn(),
 }));
 
 const mockRepositoryData = {
-  repositoryCount: 2,
   search: {
-    repositoryCount: 2,
     edges: [
       {
         node: {
@@ -34,12 +32,14 @@ const mockRepositoryData = {
     },
   },
 };
+
 jest.mock('@apollo/client', () => ({
   ...jest.requireActual('@apollo/client'),
   gql: jest.fn((strings) => strings[0]),
   makeVar: () => {},
   useReactiveVar: () => mockRepositoryData,
 }));
+
 describe('RepositoryTable component', () => {
   beforeEach(() => {
     jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
@@ -88,7 +88,7 @@ describe('RepositoryTable component', () => {
   test('renders message if error', async () => {
     jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
       loading: false,
-      error: true
+      error: true,
     }));
     render(<RepositoryTable />);
     const errorMessage = screen.getByTestId('tableMessageError');
