@@ -12,7 +12,6 @@ const mockRepositoryData = {
     repositoryCount: 2,
     edges: [
       {
-        cursor: 'cursor1',
         node: {
           forkCount: 20,
           name: 'Repo 1',
@@ -21,7 +20,6 @@ const mockRepositoryData = {
         },
       },
       {
-        cursor: 'cursor2',
         node: {
           forkCount: 30,
           name: 'Repo 2',
@@ -31,10 +29,8 @@ const mockRepositoryData = {
       },
     ],
     pageInfo: {
-      startCursor: 'cursor1',
       endCursor: 'cursor2',
-      hasNextPage: true,
-      hasPreviousPage: false,
+      hasNextPage: false,
     },
   },
 };
@@ -49,8 +45,7 @@ describe('RepositoryTable component', () => {
     jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
       loading: false,
       error: null,
-      handleNextPage: jest.fn(),
-      handlePrevPage: jest.fn(),
+      handleLoadMore: jest.fn(),
     }));
   });
 
@@ -67,10 +62,8 @@ describe('RepositoryTable component', () => {
     render(
         <RepositoryTable />
     );
-    const buttonPrev = screen.getByTestId('buttonPrev');
-    const buttonNext = screen.getByTestId('buttonNext');
-    expect(buttonPrev).toBeDisabled();
-    expect(buttonNext).not.toBeDisabled();
+    const buttonLoadMore = screen.getByTestId('buttonLoadMore');
+    expect(buttonLoadMore).toBeDisabled();
   });
 
   test('renders repo names as links', async () => {

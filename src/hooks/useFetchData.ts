@@ -23,42 +23,33 @@ export const useFetchData = () => {
     data && repositoriesVar(data);
   }, [data]);
 
-  const handleShowMore = ({ after, before, first }: {
-    after: string | null;
-    before: string | null;
-    first: number;
-  }) => {
+  const handleShowMore = () => {
+    const lastCursor = repositories.search.pageInfo.endCursor;
     fetchMore({
-      variables: { after, before, query, first },
+      variables: {
+        after: lastCursor,
+        first: 10,
+        query,
+      },
       updateQuery: (previousQueryResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return previousQueryResult;
         repositoriesVar(fetchMoreResult);
-   
         return {
           ...fetchMoreResult,
           search: {
             ...fetchMoreResult.search,
-            edges: fetchMoreResult.search.edges,
+            edges: [
+              ...previousQueryResult.search.edges,
+              ...fetchMoreResult.search.edges,
+            ],
           },
-        } as RepoListData;
+        };
       },
     });
   };
-  const handleNextPage = () => {
-    handleShowMore({
-      after: repositories && repositories.search.pageInfo.endCursor,
-      before: null,
-      first: 10,
-    });
+  const handleLoadMore = () => {
+    handleShowMore();
   };
 
-  const handlePrevPage = () => {
-    handleShowMore({
-      after: null,
-      before: repositories && repositories.search.edges[0].cursor,
-      first: 10,
-    });
-  };
-
-  return { loading, error, handleNextPage, handlePrevPage };
+  return { loading, error, handleLoadMore };
 };

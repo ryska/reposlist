@@ -3,7 +3,6 @@ export type RepoListData = {
   search: {
     repositoryCount: number;
     edges: {
-      cursor: string;
       node: Repository;
     }[];
     pageInfo: PageInfo;
@@ -12,10 +11,8 @@ export type RepoListData = {
 
 export type RepoListVariables = {};
 type PageInfo = {
-  startCursor: string;
   endCursor: string;
   hasNextPage: boolean;
-  hasPreviousPage: boolean;
 };
 
 export type Repository = {

@@ -7,7 +7,6 @@ export const repositoriesVar = makeVar<RepoListData>({
     repositoryCount: 0,
     edges: [
       {
-        cursor: '',
         node: {
           name: '',
           stargazerCount: 0,
@@ -17,10 +16,8 @@ export const repositoriesVar = makeVar<RepoListData>({
       },
     ],
     pageInfo: {
-      startCursor: '',
       endCursor: '',
       hasNextPage: true,
-      hasPreviousPage: false,
     },
   },
 });

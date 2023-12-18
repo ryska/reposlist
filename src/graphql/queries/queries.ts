@@ -5,7 +5,6 @@ export const POPULAR_REPOS_QUERY = gql`
     search(type: REPOSITORY, query: $query, first: $first, after: $after) {
         repositoryCount
         edges {
-          cursor
           node {
             ... on Repository {
               forkCount
@@ -16,10 +15,8 @@ export const POPULAR_REPOS_QUERY = gql`
           }
         }
         pageInfo {
-          startCursor
           endCursor
           hasNextPage
-          hasPreviousPage
         }
       }
     }

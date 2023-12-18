@@ -13,7 +13,7 @@ import { Box } from '@mui/material';
 
 const RepositoryTable = () => {
   const repositories = useReactiveVar(repositoriesVar);
-  const { handleNextPage, handlePrevPage } = useFetchData();
+  const { handleLoadMore } = useFetchData();
   const { loading, error } = useFetchData();
 
   if (loading) {
@@ -69,22 +69,13 @@ const RepositoryTable = () => {
       </TableContainer>
       <Box sx={{ m: 4 }}>
         <Button
-          data-testid="buttonPrev"
-          sx={{ mr: 2 }}
-          variant="contained"
-          disabled={!repositories.search.pageInfo.hasPreviousPage}
-          onClick={() => handlePrevPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          data-testid="buttonNext"
+          data-testid="buttonLoadMore"
           sx={{ mr: 2 }}
           variant="contained"
           disabled={!repositories.search.pageInfo.hasNextPage}
-          onClick={() => handleNextPage()}
+          onClick={() => handleLoadMore()}
         >
-          Next
+          Load more
         </Button>
       </Box>
     </div>
