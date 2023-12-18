@@ -1,5 +1,5 @@
 import { makeVar } from '@apollo/client';
-import { RepoListData } from '../graphql/types/ReposQuery';
+import { RepoListData } from '../graphql/types/Repositories';
 
 export const repositoriesVar = makeVar<RepoListData>({
   search: {

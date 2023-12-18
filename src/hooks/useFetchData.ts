@@ -1,8 +1,14 @@
 import { useEffect } from 'react';
 import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
-import { RepoListData, RepoListVariables } from '../graphql/types/ReposQuery';
+import { RepoListData, RepoListVariables } from '../graphql/types/Repositories';
 import { POPULAR_REPOS_QUERY } from '../graphql/queries/repositories';
 import { repositoriesVar, searchValueVar } from '../utils/variables';
+
+export type FetchDataHandlers = {
+  loading: boolean;
+  error: ApolloError | undefined;
+  handleLoadMore: () => void;
+};
 
 export const useFetchData = (): FetchDataHandlers => {
   const searchValue = useReactiveVar(searchValueVar);
@@ -53,10 +59,4 @@ export const useFetchData = (): FetchDataHandlers => {
   };
 
   return { loading, error, handleLoadMore };
-};
-
-export type FetchDataHandlers = {
-  loading: boolean;
-  error: ApolloError | undefined;
-  handleLoadMore: () => void;
 };
