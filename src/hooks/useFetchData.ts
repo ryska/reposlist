@@ -1,10 +1,10 @@
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
 import { POPULAR_REPOS_QUERY } from '../graphql/queries/repositories';
 import { RepoListData, RepoListVariables } from '../graphql/types/ReposQuery';
 import { useEffect } from 'react';
 import { repositoriesVar, searchValueVar } from '../utils/variables';
 
-export const useFetchData = () => {
+export const useFetchData = (): FetchDataResult => {
   const searchValue = useReactiveVar(searchValueVar);
   const repositories = useReactiveVar(repositoriesVar);
   const query = `language:javascript topic:react ${searchValue}`;
@@ -49,4 +49,9 @@ export const useFetchData = () => {
   };
 
   return { loading, error, handleLoadMore };
+};
+export type FetchDataResult = {
+  loading: boolean;
+  error: ApolloError | undefined;
+  handleLoadMore: () => void;
 };

@@ -1,6 +1,7 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import Search from '../Search/Search';
 import * as useFetchDataModule from '../../hooks/useFetchData';
+import { FetchDataResult } from '../../hooks/useFetchData';
 jest.mock('@apollo/client');
 
 jest.mock('../../hooks/useFetchData', () => ({
@@ -10,7 +11,7 @@ describe('Search component', () => {
   beforeEach(() => {
     jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
       loading: false,
-    }));
+    } as unknown as FetchDataResult));
   });
 
   test('renders Search component', () => {
@@ -30,7 +31,7 @@ describe('Search component', () => {
   test('button is disabled if loading is true', async () => {
     jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
       loading: true,
-    }));
+    } as unknown as FetchDataResult));
     render(<Search />);
     await waitFor(() => {
       const searchButton = screen.getByTestId('searchButton');
@@ -42,7 +43,7 @@ describe('Search component', () => {
     render(<Search />);
     const searchInput = screen
       .getByTestId('searchInput')
-      .querySelector('input');
+      .querySelector('input') as HTMLInputElement;;
     fireEvent.change(searchInput, { target: { value: 'test' } });
     expect(searchInput.value).toBe('test');
   });

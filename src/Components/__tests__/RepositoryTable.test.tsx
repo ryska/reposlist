@@ -1,6 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import * as useFetchDataModule from '../../hooks/useFetchData';
 import RepositoryTable from '../RepositoryTable/RepositoryTable';
+import { ApolloError } from '@apollo/client/errors';
+import { FetchDataResult } from '../../hooks/useFetchData';
 
 jest.mock('../../hooks/useFetchData', () => ({
   useFetchData: jest.fn(),
@@ -46,7 +48,7 @@ describe('RepositoryTable component', () => {
       loading: false,
       error: null,
       handleLoadMore: jest.fn(),
-    }));
+    } as unknown as FetchDataResult));
   });
 
   test('renders RepositoryTable component with Repo 2', async () => {
@@ -79,7 +81,7 @@ describe('RepositoryTable component', () => {
   test('renders message if loading', async () => {
     jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
       loading: true,
-    }));
+    } as unknown as FetchDataResult));
     render(<RepositoryTable />);
     const loadingMessage = screen.getByTestId('tableMessageLoading');
     expect(loadingMessage).toBeInTheDocument();
@@ -89,7 +91,7 @@ describe('RepositoryTable component', () => {
     jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
       loading: false,
       error: true,
-    }));
+    } as unknown as FetchDataResult));
     render(<RepositoryTable />);
     const errorMessage = screen.getByTestId('tableMessageError');
     expect(errorMessage).toBeInTheDocument();
