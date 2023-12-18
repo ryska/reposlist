@@ -19,4 +19,5 @@ export const repositoriesVar = makeVar<RepoListData>({
     },
   },
 });
+
 export const searchValueVar = makeVar<string>('');

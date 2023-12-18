@@ -1,10 +1,10 @@
-import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
-import { POPULAR_REPOS_QUERY } from '../graphql/queries/repositories';
-import { RepoListData, RepoListVariables } from '../graphql/types/ReposQuery';
 import { useEffect } from 'react';
+import { ApolloError, useQuery, useReactiveVar } from '@apollo/client';
+import { RepoListData, RepoListVariables } from '../graphql/types/ReposQuery';
+import { POPULAR_REPOS_QUERY } from '../graphql/queries/repositories';
 import { repositoriesVar, searchValueVar } from '../utils/variables';
 
-export const useFetchData = (): FetchDataResult => {
+export const useFetchData = (): FetchDataHandlers => {
   const searchValue = useReactiveVar(searchValueVar);
   const repositories = useReactiveVar(repositoriesVar);
   const query = `language:javascript topic:react ${searchValue}`;
@@ -16,7 +16,7 @@ export const useFetchData = (): FetchDataResult => {
     variables: {
       first: 10,
       query,
-    },
+    } as RepoListVariables,
   });
 
   useEffect(() => {
@@ -25,12 +25,16 @@ export const useFetchData = (): FetchDataResult => {
 
   const handleLoadMore = () => {
     const lastCursor = repositories.search.pageInfo.endCursor;
+    if (!lastCursor) {
+      console.error('Unable to determine the last cursor for pagination.');
+      return;
+    }
     fetchMore({
       variables: {
         after: lastCursor,
         first: 10,
         query,
-      },
+      } as RepoListVariables,
       updateQuery: (previousQueryResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return previousQueryResult;
         repositoriesVar(fetchMoreResult);
@@ -50,7 +54,8 @@ export const useFetchData = (): FetchDataResult => {
 
   return { loading, error, handleLoadMore };
 };
-export type FetchDataResult = {
+
+export type FetchDataHandlers = {
   loading: boolean;
   error: ApolloError | undefined;
   handleLoadMore: () => void;

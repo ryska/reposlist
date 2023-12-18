@@ -5,12 +5,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { repositoriesVar } from '../../utils/variables';
-import { useReactiveVar } from '@apollo/client';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import { repositoriesVar } from '../../utils/variables';
 import { useFetchData } from '../../hooks/useFetchData';
+import { useReactiveVar } from '@apollo/client';
 import './RepositoryTable.scss';
-import { Box } from '@mui/material';
 
 const RepositoryTable = React.memo(() => {
   const repositories = useReactiveVar(repositoriesVar);
@@ -22,7 +22,11 @@ const RepositoryTable = React.memo(() => {
   }
 
   if (error) {
-    return <p data-testid="tableMessageError">Something went wrong! Error: {error.message}</p>;
+    return (
+      <p data-testid="tableMessageError">
+        Something went wrong! Error: {error.message}
+      </p>
+    );
   }
 
   return (

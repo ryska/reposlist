@@ -1,8 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import * as useFetchDataModule from '../../hooks/useFetchData';
 import RepositoryTable from '../RepositoryTable/RepositoryTable';
-import { ApolloError } from '@apollo/client/errors';
-import { FetchDataResult } from '../../hooks/useFetchData';
+import { FetchDataHandlers } from '../../hooks/useFetchData';
 
 jest.mock('../../hooks/useFetchData', () => ({
   useFetchData: jest.fn(),
@@ -44,11 +43,14 @@ jest.mock('@apollo/client', () => ({
 
 describe('RepositoryTable component', () => {
   beforeEach(() => {
-    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
-      loading: false,
-      error: null,
-      handleLoadMore: jest.fn(),
-    } as unknown as FetchDataResult));
+    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(
+      () =>
+        ({
+          loading: false,
+          error: null,
+          handleLoadMore: jest.fn(),
+        }) as unknown as FetchDataHandlers,
+    );
   });
 
   test('renders RepositoryTable component with Repo 2', async () => {
@@ -58,7 +60,7 @@ describe('RepositoryTable component', () => {
     expect(repositoryName).toBeInTheDocument();
   });
 
-  test('renders buttons correctly', async () => {
+  test('renders button correctly', async () => {
     render(<RepositoryTable />);
     const buttonLoadMore = screen.getByTestId('buttonLoadMore');
     expect(buttonLoadMore).toBeDisabled();
@@ -79,19 +81,25 @@ describe('RepositoryTable component', () => {
   });
 
   test('renders message if loading', async () => {
-    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
-      loading: true,
-    } as unknown as FetchDataResult));
+    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(
+      () =>
+        ({
+          loading: true,
+        }) as unknown as FetchDataHandlers,
+    );
     render(<RepositoryTable />);
     const loadingMessage = screen.getByTestId('tableMessageLoading');
     expect(loadingMessage).toBeInTheDocument();
   });
 
   test('renders message if error', async () => {
-    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
-      loading: false,
-      error: true,
-    } as unknown as FetchDataResult));
+    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(
+      () =>
+        ({
+          loading: false,
+          error: true,
+        }) as unknown as FetchDataHandlers,
+    );
     render(<RepositoryTable />);
     const errorMessage = screen.getByTestId('tableMessageError');
     expect(errorMessage).toBeInTheDocument();

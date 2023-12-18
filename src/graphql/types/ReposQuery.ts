@@ -7,13 +7,18 @@ export type RepoListData = {
   };
 };
 
-export type RepoListVariables = {};
+export type RepoListVariables = {
+  first: number;
+  query: string;
+  after?: string;
+};
+
 type PageInfo = {
   endCursor: string;
   hasNextPage: boolean;
 };
 
-export type Repository = {
+type Repository = {
   name: string;
   url: string;
   forkCount: number;

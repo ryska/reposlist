@@ -1,43 +1,34 @@
-#### Hi!
+### Repository list
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-In the project directory, you can run:
+This is a project that lists javascript react repositories from github api. User can use search as it is in github search, so you can either type in `cats` or `user:facebook`
 
-### `npm start`
+### To run the project you need to:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    1. Create a .env.local file in the root catalog and add a github token: `REACT_APP_GITHUB_ACCESS_TOKEN='your_token'`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+    2. `npm install`
 
-### `npm test`
+    3. `npm start`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    4. Open `localhost:3000`
 
-### `npm run build`
+### Tests
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To run tests please run `npm test`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Improvements:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    1. For this project I used material-ui. I could make it much prettier (obviously) and responsive, but for now you need to trust me I can do that (please).
 
-### `npm run eject`
+    2. UX improvements:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+        a) Table is not very mobile friendly, but great for general data display. For this task I decided to leave it as is, but ux-wise it could work better.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+        b) Implementing on press enter for search input.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    3. File structure:
+        This is very specific for every project and there are countless wars around that topic.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    4. Linting files on pre-commit.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Enjoy and happy holidays ☃️
