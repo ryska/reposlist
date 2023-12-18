@@ -1,35 +1,26 @@
 import { gql } from '@apollo/client';
 
 export const POPULAR_REPOS_QUERY = gql`
-  query PopularRepos(
-    $first: Int
-    $after: String
-    $last: Int
-    $before: String
-    $query: String!
-  ) {
-    search(
-      type: REPOSITORY
-      first: $first
-      after: $after
-      last: $last
-      before: $before
-      query: $query
-    ) {
-      nodes {
-        ... on Repository {
-          forkCount
-          url
-          stargazerCount
-          name
+  query PopularRepos($after: String, $query: String!, $first: Int) {
+    search(type: REPOSITORY, query: $query, first: $first, after: $after) {
+        repositoryCount
+        edges {
+          cursor
+          node {
+            ... on Repository {
+              forkCount
+              name
+              url
+              stargazerCount
+            }
+          }
+        }
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
         }
       }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        hasPreviousPage
-      }
     }
-  }
 `;

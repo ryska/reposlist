@@ -23,6 +23,7 @@ const TableComponent = () => {
   if (error) {
     return <p>Something went wrong! Error: {error.message}</p>;
   }
+
   return (
     <div>
       <TableContainer sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -39,23 +40,30 @@ const TableComponent = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {repositories.search.nodes.map((row, i: number) => (
-              <TableRow
-                key={i}
-                sx={{
-                  '&:last-child td, &:last-child th': { border: 0 },
-                  typography: 'subtitle2',
-                }}
-              >
-                <TableCell component="th" scope="row">
-                  <a href={row.url} target="_blank" className="tableLink">
-                    {row.name}
-                  </a>
-                </TableCell>
-                <TableCell align="right">{row.stargazerCount}</TableCell>
-                <TableCell align="right">{row.forkCount}</TableCell>
-              </TableRow>
-            ))}
+            {
+              repositories.search.edges.map(({node}, i: number) => (
+                <TableRow
+                  key={i}
+                  sx={{
+                    '&:last-child td, &:last-child th': { border: 0 },
+                    typography: 'subtitle2',
+                  }}
+                >
+                  <TableCell component="th" scope="row">
+                    <a
+                      href={node.url}
+                      target="_blank"
+                      className="tableLink"
+                    >
+                      {node.name}
+                    </a>
+                  </TableCell>
+                  <TableCell align="right">
+                    {node.stargazerCount}
+                  </TableCell>
+                  <TableCell align="right">{node.forkCount}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

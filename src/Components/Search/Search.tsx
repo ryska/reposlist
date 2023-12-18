@@ -22,7 +22,6 @@ const Search = () => {
       <TextField
         data-testid="searchInput"
         placeholder="user:facebook"
-        label="Search"
         variant="outlined"
         onChange={(e) => setValue(e.target.value)}
         value={value}

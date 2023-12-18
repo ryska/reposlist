@@ -23,40 +23,40 @@ export const useFetchData = () => {
     data && repositoriesVar(data);
   }, [data]);
 
-  const handleShowMore = ({
-    after,
-    before,
-  }: {
-    after?: string;
-    before?: string;
+  const handleShowMore = ({ after, before, first }: {
+    after: string | null;
+    before: string | null;
+    first: number;
   }) => {
     fetchMore({
-      variables: { after, before, query },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult) return prev;
-        const nextRepos = fetchMoreResult;
-        repositoriesVar(nextRepos);
+      variables: { after, before, query, first },
+      updateQuery: (previousQueryResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return previousQueryResult;
+        repositoriesVar(fetchMoreResult);
+   
         return {
+          ...fetchMoreResult,
           search: {
             ...fetchMoreResult.search,
-            nodes: [...fetchMoreResult.search.nodes],
+            edges: fetchMoreResult.search.edges,
           },
-        };
+        } as RepoListData;
       },
     });
   };
-
   const handleNextPage = () => {
     handleShowMore({
-      after: repositories.search.pageInfo.endCursor,
-      before: undefined,
+      after: repositories && repositories.search.pageInfo.endCursor,
+      before: null,
+      first: 10,
     });
   };
 
   const handlePrevPage = () => {
     handleShowMore({
-      after: undefined,
-      before: repositories.search.pageInfo.startCursor,
+      after: null,
+      before: repositories && repositories.search.edges[0].cursor,
+      first: 10,
     });
   };
 

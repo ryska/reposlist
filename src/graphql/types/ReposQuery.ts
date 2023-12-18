@@ -1,10 +1,10 @@
 export type RepoListData = {
+  repositoryCount: number;
   search: {
-    nodes: {
-      name: string;
-      url: string;
-      forkCount: number;
-      stargazerCount: number;
+    repositoryCount: number;
+    edges: {
+      cursor: string;
+      node: Repository;
     }[];
     pageInfo: PageInfo;
   };
@@ -16,4 +16,11 @@ type PageInfo = {
   endCursor: string;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
+};
+
+export type Repository = {
+  name: string;
+  url: string;
+  forkCount: number;
+  stargazerCount: number;
 };
