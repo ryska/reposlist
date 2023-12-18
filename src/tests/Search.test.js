@@ -7,11 +7,11 @@ jest.mock('../hooks/useFetchData', () => ({
   useFetchData: jest.fn(),
 }));
 describe('Search component', () => {
-    beforeEach(() => {
-        jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
-            loading: false,
-          }));
-    })
+  beforeEach(() => {
+    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
+      loading: false,
+    }));
+  });
   test('renders Search component', () => {
     render(<Search />);
     const searchElement = screen.getByTestId('searchComponent');
@@ -39,7 +39,9 @@ describe('Search component', () => {
 
   test('input value is updated correctly', () => {
     render(<Search />);
-    const searchInput = screen.getByTestId('searchInput').querySelector('input');
+    const searchInput = screen
+      .getByTestId('searchInput')
+      .querySelector('input');
     fireEvent.change(searchInput, { target: { value: 'test' } });
     expect(searchInput.value).toBe('test');
   });

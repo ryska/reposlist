@@ -17,16 +17,19 @@ const RepositoryTable = () => {
   const { loading, error } = useFetchData();
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p data-testid="tableMessageLoading">Loading...</p>;
   }
 
   if (error) {
-    return <p>Something went wrong! Error: {error.message}</p>;
+    return <p data-testid="tableMessageError">Something went wrong! Error: {error.message}</p>;
   }
 
   return (
     <div>
-      <TableContainer data-testid="repoTableComponent" sx={{ display: 'flex', justifyContent: 'center' }}>
+      <TableContainer
+        data-testid="repoTableComponent"
+        sx={{ display: 'flex', justifyContent: 'center' }}
+      >
         <Table sx={{ minWidth: 650, maxWidth: 800 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -40,30 +43,23 @@ const RepositoryTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {
-              repositories.search.edges.map(({node}, i: number) => (
-                <TableRow
-                  key={i}
-                  sx={{
-                    '&:last-child td, &:last-child th': { border: 0 },
-                    typography: 'subtitle2',
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    <a
-                      href={node.url}
-                      target="_blank"
-                      className="tableLink"
-                    >
-                      {node.name}
-                    </a>
-                  </TableCell>
-                  <TableCell align="right">
-                    {node.stargazerCount}
-                  </TableCell>
-                  <TableCell align="right">{node.forkCount}</TableCell>
-                </TableRow>
-              ))}
+            {repositories.search.edges.map(({ node }, i: number) => (
+              <TableRow
+                key={i}
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                  typography: 'subtitle2',
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  <a href={node.url} target="_blank" className="tableLink">
+                    {node.name}
+                  </a>
+                </TableCell>
+                <TableCell align="right">{node.stargazerCount}</TableCell>
+                <TableCell align="right">{node.forkCount}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

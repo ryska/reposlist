@@ -30,7 +30,12 @@ const Search = () => {
         value={value}
         sx={{ width: 1, maxWidth: 300, mr: 2 }}
       />
-      <Button data-testid="searchButton" type="button" onClick={handleSearch} disabled={loading}>
+      <Button
+        data-testid="searchButton"
+        type="button"
+        onClick={handleSearch}
+        disabled={loading}
+      >
         Search
       </Button>
     </Box>

@@ -50,26 +50,20 @@ describe('RepositoryTable component', () => {
   });
 
   test('renders RepositoryTable component with Repo 2', async () => {
-    render(
-        <RepositoryTable />
-    );
+    render(<RepositoryTable />);
     await waitFor(() => screen.getByText('Repo 2'));
     const repositoryName = screen.getByText('Repo 2');
     expect(repositoryName).toBeInTheDocument();
   });
 
   test('renders buttons correctly', async () => {
-    render(
-        <RepositoryTable />
-    );
+    render(<RepositoryTable />);
     const buttonLoadMore = screen.getByTestId('buttonLoadMore');
     expect(buttonLoadMore).toBeDisabled();
   });
 
   test('renders repo names as links', async () => {
-    render(
-        <RepositoryTable />
-    );
+    render(<RepositoryTable />);
     await waitFor(() => screen.getByText('Repo 1'));
     const repo1Link = screen.getByRole('link', { name: 'Repo 1' });
     const repo2Link = screen.getByRole('link', { name: 'Repo 2' });
@@ -80,5 +74,24 @@ describe('RepositoryTable component', () => {
     expect(repo2Link).toBeInTheDocument();
     expect(repo2Link).toHaveAttribute('href', 'https://repo2.com');
     expect(repo2Link).toHaveAttribute('target', '_blank');
+  });
+
+  test('renders message if loading', async () => {
+    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
+      loading: true,
+    }));
+    render(<RepositoryTable />);
+    const loadingMessage = screen.getByTestId('tableMessageLoading');
+    expect(loadingMessage).toBeInTheDocument();
+  });
+
+  test('renders message if error', async () => {
+    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(() => ({
+      loading: false,
+      error: true
+    }));
+    render(<RepositoryTable />);
+    const errorMessage = screen.getByTestId('tableMessageError');
+    expect(errorMessage).toBeInTheDocument();
   });
 });
