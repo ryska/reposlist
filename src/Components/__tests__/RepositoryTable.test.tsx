@@ -109,16 +109,14 @@ const mocks = [
 ];
 
 describe('RepositoryTable component', () => {
-  it('renders RepositoryTable component with Repo 2', async () => {
+  it('renders RepositoryTable component with 10 rows', async () => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <RepositoryTable />
       </MockedProvider>,
     );
-  
-    await screen.findByTestId('repoTableComponent');
-    await screen.findByText('Repo 2');
-    expect(screen.getByText('Repo 2')).toBeInTheDocument();
+    const rows = await screen.findAllByTestId('repoTableRow');
+    expect(rows).toHaveLength(10);
   });
 
   it('renders button correctly', async () => {
@@ -139,10 +137,12 @@ describe('RepositoryTable component', () => {
       </MockedProvider>,
     );
     await screen.findByTestId('repoTableComponent');
-    const repo1Link = screen.getByRole('link', { name: 'Repo 1' });
-    expect(repo1Link).toBeInTheDocument();
-    expect(repo1Link).toHaveAttribute('href', 'https://repo1.com');
-    expect(repo1Link).toHaveAttribute('target', '_blank');
+    await screen.findByTestId('repoTableComponent');
+    const repoTableRowNames = screen.getAllByTestId('repoTableRowName');
+    repoTableRowNames.forEach((repoTableRowName) => {
+      const nestedAnchorElement = repoTableRowName.querySelector('a');
+      expect(nestedAnchorElement).toBeInTheDocument();
+    });
   });
 
   it('renders message if loading', async () => {

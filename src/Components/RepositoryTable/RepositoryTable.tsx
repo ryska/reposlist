@@ -49,12 +49,13 @@ const RepositoryTable = React.memo(() => {
             {repositories.search.edges.map(({ node }, i: number) => (
               <TableRow
                 key={i}
+                data-testid="repoTableRow"
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
                   typography: 'subtitle2',
                 }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" data-testid="repoTableRowName">
                   <a
                     href={node.url}
                     target="_blank"
