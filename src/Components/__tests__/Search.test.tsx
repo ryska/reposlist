@@ -47,10 +47,8 @@ describe('Search component', () => {
 
   test('input value is updated correctly', () => {
     render(<Search />);
-    const searchInput = screen
-      .getByTestId('searchInput')
-      .querySelector('input') as HTMLInputElement;
+    const searchInput = screen.getByRole('textbox') as HTMLInputElement;
     fireEvent.change(searchInput, { target: { value: 'test' } });
-    expect(searchInput.value).toBe('test');
+    expect(searchInput).toHaveValue('test');
   });
 });

@@ -57,7 +57,7 @@ const RepositoryTable = React.memo(() => {
                 }}
               >
                 <TableCell component="th" scope="row">
-                  <a href={node.url} target="_blank" className="tableLink">
+                  <a href={node.url} target="_blank" rel="noreferrer" className="tableLink">
                     {node.name}
                   </a>
                 </TableCell>

@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import * as useFetchDataModule from '../../hooks/useFetchData';
 import RepositoryTable from '../RepositoryTable/RepositoryTable';
 import { FetchDataHandlers } from '../../hooks/useFetchData';
@@ -55,8 +55,7 @@ describe('RepositoryTable component', () => {
 
   test('renders RepositoryTable component with Repo 2', async () => {
     render(<RepositoryTable />);
-    await waitFor(() => screen.getByText('Repo 2'));
-    const repositoryName = screen.getByText('Repo 2');
+    const repositoryName = await screen.findByText('Repo 2');
     expect(repositoryName).toBeInTheDocument();
   });
 
@@ -68,7 +67,6 @@ describe('RepositoryTable component', () => {
 
   test('renders repo names as links', async () => {
     render(<RepositoryTable />);
-    await waitFor(() => screen.getByText('Repo 1'));
     const repo1Link = screen.getByRole('link', { name: 'Repo 1' });
     const repo2Link = screen.getByRole('link', { name: 'Repo 2' });
     expect(repo1Link).toBeInTheDocument();
