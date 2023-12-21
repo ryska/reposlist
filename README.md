@@ -22,12 +22,12 @@ To run tests please run `npm test`
 
 2. UX improvements:
 
-    a) Table is not very mobile friendly, but great for general data display. For this task I decided to leave it as is, but ux-wise it could work better.
+   a) Table is not very mobile friendly, but great for general data display. For this task I decided to leave it as is, but ux-wise it could work better.
 
-    b) Implementing on press enter for search input.
+   b) Implementing on press enter for search input.
 
 3. File structure:
-        This is very specific for every project and there are countless wars around that topic.
+   This is very specific for every project and there are countless wars around that topic.
 
 4. Linting files on pre-commit.
 
