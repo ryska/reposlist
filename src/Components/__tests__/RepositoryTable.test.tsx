@@ -115,9 +115,10 @@ describe('RepositoryTable component', () => {
         <RepositoryTable />
       </MockedProvider>,
     );
+  
     await screen.findByTestId('repoTableComponent');
     await screen.findByText('Repo 2');
-    expect(screen.findByText('Repo 2')).toBeInTheDocument();
+    expect(screen.getByText('Repo 2')).toBeInTheDocument();
   });
 
   it('renders button correctly', async () => {
@@ -138,8 +139,7 @@ describe('RepositoryTable component', () => {
       </MockedProvider>,
     );
     await screen.findByTestId('repoTableComponent');
-    const repo1Link = await screen.getByRole('link', { name: 'Repo 1' });
-    const repo2Link = await screen.getByRole('link', { name: 'Repo 2' });
+    const repo1Link = screen.getByRole('link', { name: 'Repo 1' });
     expect(repo1Link).toBeInTheDocument();
     expect(repo1Link).toHaveAttribute('href', 'https://repo1.com');
     expect(repo1Link).toHaveAttribute('target', '_blank');

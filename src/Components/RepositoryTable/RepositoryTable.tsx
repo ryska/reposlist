@@ -60,7 +60,6 @@ const RepositoryTable = React.memo(() => {
                     target="_blank"
                     rel="noreferrer"
                     className="tableLink"
-                    role="link"
                   >
                     {node.name}
                   </a>
