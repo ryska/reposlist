@@ -1,30 +1,54 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MockedProvider } from '@apollo/client/testing';
 import Search from '../Search/Search';
-import * as useFetchDataModule from '../../hooks/useFetchData';
 import { FetchDataHandlers } from '../../hooks/useFetchData';
-jest.mock('@apollo/client');
+import { POPULAR_REPOS_QUERY } from '../../graphql/queries/repositories';
 
 jest.mock('../../hooks/useFetchData', () => ({
   useFetchData: jest.fn(),
 }));
+
+const mocks = [
+  {
+    request: {
+      query: POPULAR_REPOS_QUERY,
+      variables: {
+        first: 10,
+        query: 'language:javascript topic:react '
+      },
+    },
+    result: {
+      data: [],
+    },
+  },
+];
+
 describe('Search component', () => {
   beforeEach(() => {
-    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(
+    jest.spyOn(require('../../hooks/useFetchData'), 'useFetchData').mockImplementation(
       () =>
         ({
           loading: false,
-        }) as unknown as FetchDataHandlers,
+        } as FetchDataHandlers),
     );
   });
 
   test('renders Search component', () => {
-    render(<Search />);
+    render(
+      <MockedProvider mocks={mocks}>
+        <Search />
+      </MockedProvider>
+    );
     const searchElement = screen.getByTestId('searchComponent');
     expect(searchElement).toBeInTheDocument();
   });
 
   test('button is not disabled if loading is false', async () => {
-    render(<Search />);
+    render(
+      <MockedProvider mocks={mocks}>
+        <Search />
+      </MockedProvider>
+    );
     await waitFor(() => {
       const searchButton = screen.getByTestId('searchButton');
       expect(searchButton).not.toBeDisabled();
@@ -32,13 +56,17 @@ describe('Search component', () => {
   });
 
   test('button is disabled if loading is true', async () => {
-    jest.spyOn(useFetchDataModule, 'useFetchData').mockImplementation(
+    jest.spyOn(require('../../hooks/useFetchData'), 'useFetchData').mockImplementation(
       () =>
         ({
           loading: true,
-        }) as unknown as FetchDataHandlers,
+        } as FetchDataHandlers),
     );
-    render(<Search />);
+    render(
+      <MockedProvider mocks={mocks}>
+        <Search />
+      </MockedProvider>
+    );
     await waitFor(() => {
       const searchButton = screen.getByTestId('searchButton');
       expect(searchButton).toBeDisabled();
@@ -46,7 +74,11 @@ describe('Search component', () => {
   });
 
   test('input value is updated correctly', () => {
-    render(<Search />);
+    render(
+      <MockedProvider mocks={mocks}>
+        <Search />
+      </MockedProvider>
+    );
     const searchInput = screen.getByRole('textbox') as HTMLInputElement;
     fireEvent.change(searchInput, { target: { value: 'test' } });
     expect(searchInput).toHaveValue('test');

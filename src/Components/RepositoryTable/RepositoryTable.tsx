@@ -14,9 +14,7 @@ import './RepositoryTable.scss';
 
 const RepositoryTable = React.memo(() => {
   const repositories = useReactiveVar(repositoriesVar);
-  const { handleLoadMore } = useFetchData();
-  const { loading, error } = useFetchData();
-
+  const { handleLoadMore, loading, error } = useFetchData();
   if (loading) {
     return <p data-testid="tableMessageLoading">Loading...</p>;
   }
@@ -57,7 +55,13 @@ const RepositoryTable = React.memo(() => {
                 }}
               >
                 <TableCell component="th" scope="row">
-                  <a href={node.url} target="_blank" rel="noreferrer" className="tableLink">
+                  <a
+                    href={node.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="tableLink"
+                    role="link"
+                  >
                     {node.name}
                   </a>
                 </TableCell>
