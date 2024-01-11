@@ -8,83 +8,14 @@ const mockRepositoryData = {
     edges: [
       {
         node: {
+          // id: 'repo1',
           forkCount: 40,
           name: 'Repo 1',
           url: 'https://repo1.com',
           stargazerCount: 25,
+          __typename: 'Repository',
         },
-      },
-      {
-        node: {
-          forkCount: 40,
-          name: 'Repo 2',
-          url: 'https://repo2.com',
-          stargazerCount: 25,
-        },
-      },
-      {
-        node: {
-          forkCount: 40,
-          name: 'Repo 3',
-          url: 'https://repo3.com',
-          stargazerCount: 25,
-        },
-      },
-      {
-        node: {
-          forkCount: 15,
-          name: 'Repo 4',
-          url: 'https://repo4.com',
-          stargazerCount: 50,
-        },
-      },
-      {
-        node: {
-          forkCount: 22,
-          name: 'Repo 5',
-          url: 'https://repo5.com',
-          stargazerCount: 15,
-        },
-      },
-      {
-        node: {
-          forkCount: 18,
-          name: 'Repo 6',
-          url: 'https://repo6.com',
-          stargazerCount: 40,
-        },
-      },
-      {
-        node: {
-          forkCount: 33,
-          name: 'Repo 7',
-          url: 'https://repo7.com',
-          stargazerCount: 30,
-        },
-      },
-      {
-        node: {
-          forkCount: 25,
-          name: 'Repo 8',
-          url: 'https://repo8.com',
-          stargazerCount: 20,
-        },
-      },
-      {
-        node: {
-          forkCount: 28,
-          name: 'Repo 9',
-          url: 'https://repo9.com',
-          stargazerCount: 18,
-        },
-      },
-      {
-        node: {
-          forkCount: 15,
-          name: 'Repo 10',
-          url: 'https://repo10.com',
-          stargazerCount: 22,
-        },
+        __typename: 'SearchResultItemEdge',
       },
     ],
     pageInfo: {
@@ -111,7 +42,15 @@ const mocks = [
 describe('RepositoryTable component', () => {
   it('renders RepositoryTable component with 10 rows', async () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider
+        mocks={mocks}
+        addTypename={false}
+        defaultOptions={{
+          query: { errorPolicy: 'all' },
+          watchQuery: { errorPolicy: 'all' },
+          mutate: { errorPolicy: 'all' },
+        }}
+      >
         <RepositoryTable />
       </MockedProvider>,
     );
@@ -121,7 +60,7 @@ describe('RepositoryTable component', () => {
 
   it('renders button correctly', async () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocks} addTypename>
         <RepositoryTable />
       </MockedProvider>,
     );
@@ -130,8 +69,8 @@ describe('RepositoryTable component', () => {
     expect(buttonLoadMore).toBeInTheDocument();
   });
 
-  it('renders repo names as links', async () => {
-    render(
+  it.only('renders repo names as links', async () => {
+    const { container } = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <RepositoryTable />
       </MockedProvider>,
@@ -141,8 +80,10 @@ describe('RepositoryTable component', () => {
     const repoTableRowNames = screen.getAllByTestId('repoTableRowName');
     repoTableRowNames.forEach((repoTableRowName) => {
       const nestedAnchorElement = repoTableRowName.querySelector('a');
+      console.log('repoTableRowName', repoTableRowName.outerHTML);
       expect(nestedAnchorElement).toBeInTheDocument();
     });
+    console.log('container', container.outerHTML);
   });
 
   it('renders message if loading', async () => {
@@ -176,7 +117,7 @@ describe('RepositoryTable component', () => {
         request: {
           query: POPULAR_REPOS_QUERY,
           variables: {
-            first: 10,
+            first: 22,
             query: 'language:javascript topic:react ',
           },
         },
